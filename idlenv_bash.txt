@@ -1,0 +1,38 @@
+#IDL environmental file for the suprime cam pipeline. Run
+# source idlenv.txt
+#to get the idl pipeline paths correct. 
+
+#set standard IDL directories
+export IDL_DIR="/Applications/exelis/idl82"
+export IDL_HELP_PATH="$IDL_DIR/help"
+
+#clear the path.
+export IDL_PATH
+
+#add the base IDL library and examples to path
+export IDL_PATH="+$IDL_DIR/lib:$IDL_PATH"
+export IDL_PATH="+$IDL_DIR/examples:$IDL_PATH"
+
+# add Jacob's supcampipe IDL path here
+export IDL_PATH="+/Volumes/data2/scam_reductions/scampipe:$IDL_PATH"
+export IDL_PATH="/Volumes/data2/scam_reductions/scampipe/lib:$IDL_PATH"
+
+#i'm also adding my personal IDL files, looks like there are
+# a few astro dependencies missing as well
+#export IDL_PATH="/u/zach/idl:$IDL_PATH"
+#export IDL_PATH="/u/zach/cvs:$IDL_PATH"
+
+# add IDL_IRAF parameter file pointer
+#setenv IDL_IRAF /san/sage/data/supcampipe/idliraf
+export IDL_IRAF="/Volumes/data2/scam_reductions/scampipe"
+
+# add the sdfred path and environment variables to the regular path 
+#(not sure this does anything for the pipeline)
+export PATH="/Volumes/data2/scam_reductions/scampipe/sdfred20101227_mf2/bin:$PATH"
+export PATH="/Volumes/data2/scam_reductions/scampipe:$PATH"
+export LANG="C"
+export LC_ALL="C"
+
+#add in the necessary paths for python scripts
+export PYTHONPATH="/Volumes/data2/scam_reductions/scampipe"
+
