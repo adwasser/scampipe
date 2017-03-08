@@ -146,7 +146,13 @@ class SuprimeCamMCMC(object):
         cdelt2 = hdu_list[0].header['cdelt2']
         try:
             angle = np.array([math.degrees(math.acos(hdu_list[0].header['cd1_1'] / hdu_list[0].header['cdelt1']))])
+
+        #Sometimes this produces a quantity greater than one. This should only happen when angle is ~0.
+        except ValueError:
+            print('Error reading initial angle, setting initial angle to zero.')
+            angle = np.array([0.00001])
         except KeyError:
+        #If WCS is not in matrix form, crota2 header should exist, so take this instead.
             angle = np.array([hdu_list[0].header['crota2']])
         #angle=0.0
 
@@ -395,11 +401,17 @@ class SuprimeCamMCMC(object):
         header['crval1'] = self.wcs[0].wcs.crval[0]
         header['crval2'] = self.wcs[0].wcs.crval[1]
 
-
+		#take out the cd keywords which will confuse the WCS solution otherwise
         header.pop('cd1_1',None)
         header.pop('cd1_2',None)
         header.pop('cd2_1',None)
         header.pop('cd2_2',None)
+		
+		#in old data, the keywords are stored in a different format, take those out too.
+        header.pop('PC001001',None)
+        header.pop('PC001002',None)
+        header.pop('PC002001',None)
+        header.pop('PC002002',None)
 
         header['History'] = 'Updated Astrometry Keywords :' + str(datetime.datetime.now())
 
