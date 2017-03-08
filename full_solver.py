@@ -90,7 +90,15 @@ class SCamMultiChipSolver(object):
 
 def main():
     full = SCamMultiChipSolver(sys.argv[1])
-    full.fit_images(nsteps=600,nburn=400,make_diag_plots=True,start_chip=0,end_chip=None)
+    try:
+    	nsteps = int(sys.argv[2])
+    except IndexError:
+		nsteps = 600
+    try: 
+        nburn = int(sys.argv[3])
+    except IndexError:
+	 	nburn = 400		
+    full.fit_images(nsteps=nsteps,nburn=nburn,make_diag_plots=True,start_chip=0,end_chip=None)
 
 if __name__ == "__main__":
     main()
