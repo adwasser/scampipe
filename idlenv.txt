@@ -1,0 +1,31 @@
+#IDL environmental file for the suprime cam pipeline. Run
+# source idlenv.txt
+#to get the idl pipeline paths correct. 
+
+#set standard IDL directories
+setenv IDL_DIR /opt/idl/idl82/
+setenv IDL_HELP_PATH $IDL_DIR/help
+
+#clear the path.
+setenv IDL_PATH
+
+#add the base IDL library and examples to path
+setenv IDL_PATH $IDL_PATH{:}+$IDL_DIR/lib 
+setenv IDL_PATH $IDL_PATH{:}+$IDL_DIR/examples 
+
+# add Jacob's supcampipe IDL path here
+setenv IDL_PATH $IDL_PATH{:}+/san/sage/data/scampipe
+
+# add IDL_IRAF parameter file pointer
+#setenv IDL_IRAF /san/sage/data/supcampipe/idliraf
+setenv IDL_IRAF /san/sage/data/scampipe/idliraf
+
+# add the sdfred path and environment variables to the regular path 
+#(not sure this does anything for the pipeline)
+set path = ( /u/zach/scam/sdfred20101227_mf2/bin $path)
+setenv LANG C
+setenv LC_ALL C
+
+#add in the necessary paths for python scripts
+#setenv PYTHONPATH ${PYTHONPATH}:/users/[your username]/PBI/Modules/
+

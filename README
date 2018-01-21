@@ -1,0 +1,52 @@
+Quick explanation of how to run the scampipe pipeline from the data directory:
+
+If running the pipeline while SSH'd and you use OSX, make sure the following,
+is enabled ON YOUR LOCAL COMPUTER:
+% defaults write org.x.X11 wm_click_through -bool true 
+This is for OSX 10.5 and later, I believe. 
+
+This assumes you are in tcsh.  Do the following:
+
+% source idlenv.txt
+
+This will update the idl pipeline paths correctly for jacob's pipeline.
+THIS WILL OVERWRITE YOUR USUAL IDL PATH FOR THIS SESSION.
+
+Move biases, flats, and the galaxy's images for one filterall into one
+working directory. Start IDL in this directory and run
+
+> scampipe,filter='W-S-R+',flatType='DOMEFLAT'
+
+Replacing the filter with whatever is appropriate. The pipeline
+will give options. Start at the beginning, it doesn't seem to work correctly
+when things are run out of order. However, once you've completed a step,
+you can exit the session and begin it again that specific step.
+
+
+Step 10 will ask you to do a rough astrometry correction. Click on a green
+square, then click on the corresponding source. This step is sensitive,
+so be careful not to accidentially click somewhere elsewhere on the window,
+or you will have to restart. 
+
+The mosaicing step uses Montage_v3.3.  I had a lot of trouble with the
+paths for this step, so I just hard-coded the paths to use
+/u/zach/montage/Montage_v3.3/bin/ 
+If these don't work or give permission errors, let me (zach) know. 
+
+At one point, this step will stop in IDL and ask you to run something manually.
+Copy the command into a different window and run it. This will take several
+minutes to complete. When the step is finished, go back into the IDL
+window and type
+> .c
+to continue from where you left off. This is necessary because of the
+way the paths work from within the IDL session. I don't know why this is, and
+I'm sure there's a better solution, but this is my quick-fix. 
+
+Finally, in the final step, the IDL script will ask for a name. I've been
+addopting "galaxyname_filter.fits' as my convention. 
+
+
+
+
+
+

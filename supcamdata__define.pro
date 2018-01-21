@@ -224,7 +224,11 @@ PRO supCamData::getChipsDate
 								"if flag then value = strtrim(date[0] + (date[1]-1)/12. + date[2]/365.,2)", $
 								"if flag then if (value gt 2008.58) then value = [value, 'chihiro', 'clarisse', 'fio', 'kiki', 'nausicaa', 'ponyo', 'san', 'satsuki', 'sheeta', 'sophie']" + $
 								" else value = [value, 'w67c1', 'w6c1', 'si006s', 'si002s', 'w7c3', 'w93c2', 'w9c2', 'si005s', 'si001s', 'w4c5']"])
-	if (value[0] eq 'NULL') then stop
+	if (value[0] eq 'NULL') then begin
+		print, 'Unable to automatically find chip names, assuming post-ugrade chips, April OBS. Continue if this is OK.'
+		stop
+		value = ['2011.33', 'chihiro', 'clarisse', 'fio', 'kiki', 'nausicaa', 'ponyo', 'san', 'satsuki', 'sheeta', 'sophie']
+	endif
 	date = float(value[0])
 	chips = value[1:*]
 	if 0 then begin
@@ -694,8 +698,8 @@ PRO supCamData::overscan_subtract, monitor=monitor
 							++k
 						endfor
 						;superbias = median(hold,dimension=2,/even)								;take the median value at each pixel
-						;superbias = median(hold,dimension=3,/even)								;take the median value at each pixel
-						superbias = median(hold)								;take the median value at each pixel
+						superbias = median(hold,dimension=3,/even)								;take the median value at each pixel
+						;superbias = median(hold)								;take the median value at each pixel
 						bpix = where(finite(superbias) eq 0, nbpix)								;check for bad pixels
 						if (nbpix gt 0) then superbias[bpix] = self.badPixValue					;mark any that exist
 						;spawn, 'mv SUPERBIAS_'+chip+'.fits SUPERBIAS_'+chip+'.fits.old'		;rename previous versions
@@ -856,12 +860,13 @@ PRO supCamData::overScanSub, files, monitor=monitor, nopattern=nopattern, pre=pr
 					if (count gt 0) then sig[bPix] = sig[bpix]*nsig[bpix]
 					;oplot, ind, sig, color=fsc_color('red')
 
-					dummy = poly_fit(ind, mn, porder, measure_errors=sig[ind], yfit=yfit, yband=yband, yerror=yerror)
+					dummy = poly_fit(ind, mn, porder, measure_errors=sig[ind], yfit=yfit, yband=yband, yerror=yerror,status=status)
 					if (N_elements(monitor) ne 0) then oplot, ind, yfit, color=fsc_color('red')
+
 
 					;if (N_elements(monitor) ne 0) then print, yerror
 					for k=0,10 do begin
-						dummy = poly_fit(ind, mn, porder, measure_errors=sqrt(sig[ind]^2d + (yfit - mn)^2d), yfit=yfit, yband=yband, yerror=yerror)
+						dummy = poly_fit(ind, mn, porder, measure_errors=sqrt(sig[ind]^2d + (yfit - mn)^2d), yfit=yfit, yband=yband, yerror=yerror,status=status)
 						if (N_elements(monitor) ne 0) then oplot, ind, yfit, color=fsc_color('red')
 						++k
 
