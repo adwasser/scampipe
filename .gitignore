@@ -1,0 +1,14 @@
+# assorted backups
+.*
+\#*
+*~
+
+# compiled python
+*.pyc
+
+# assorted libraries
+*.tar.gz
+Montage_v3.3
+lib
+idliraf
+sdfred20101227_mf2
